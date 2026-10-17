@@ -3,9 +3,10 @@ from xml.etree.ElementTree import tostring
 # import feedparser
 # rss_url = "https://kill-the-newsletter.com/feeds/tv52d3mc8fcm1af5z864.xml"
 
-import email
 import imaplib
 import json
+import email
+from email import policy
 
 with open("config.json", "r") as f:
     config = json.load(f)
@@ -17,3 +18,9 @@ connection_to_server.select("inbox")
 status, data = connection_to_server.search(None, 'UNSEEN', 'FROM "thebatch@deeplearning.ai"')
 id_mails = data[0].split()
 print(status, " ", id_mails)
+
+for id_mail in id_mails:
+    status_i, data_i = connection_to_server.fetch(id_mail, "(RFC822)")
+    mail_info = email.message_from_bytes(data_i[0][1], policy=policy.default)
+    body = mail_info.get_body(preferencelist=('plain', 'html'))
+    print(body.get_content())
