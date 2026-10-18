@@ -19,8 +19,14 @@ status, data = connection_to_server.search(None, 'UNSEEN', 'FROM "thebatch@deepl
 id_mails = data[0].split()
 print(status, " ", id_mails)
 
-for id_mail in id_mails:
+# for id_mail in id_mails:
+#     status_i, data_i = connection_to_server.fetch(id_mail, "(RFC822)")
+#     mail_info = email.message_from_bytes(data_i[0][1], policy=policy.default)
+#     body = mail_info.get_body(preferencelist=('plain', 'html'))
+#     print(body.get_content())
+
+def get_sender(id_mail):
     status_i, data_i = connection_to_server.fetch(id_mail, "(RFC822)")
     mail_info = email.message_from_bytes(data_i[0][1], policy=policy.default)
     body = mail_info.get_body(preferencelist=('plain', 'html'))
-    print(body.get_content())
+    return body["sender"]
