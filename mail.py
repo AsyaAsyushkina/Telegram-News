@@ -1,7 +1,6 @@
 import imaplib
 import email
 from email import policy
-
 from config import EMAIL, PASSWORD, SENDERS
 
 connection_to_server = imaplib.IMAP4_SSL("imap.gmail.com")
