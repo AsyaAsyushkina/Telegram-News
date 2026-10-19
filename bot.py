@@ -1,21 +1,19 @@
 import requests
-import json
+from config import BOT_API, CHAT_ID
 
-with open("config.json", "r") as f:
-    config = json.load(f)
+url = f"https://api.telegram.org/bot"+BOT_API+"/sendMessage"
 
-url = f"https://api.telegram.org/bot"+config["bot_api"]+"/sendMessage"
+def send_message(response_ai):
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": response_ai,
+        "parse_mode": "Markdown"
+    }
 
-payload = {
-    "chat_id": config["chat_id"],
-    "text": "hello",
-    "parse_mode": "Markdown" 
-}
+    response = requests.post(url, json=payload)
+    response_data = response.json()
 
-response = requests.post(url, json=payload)
-response_data = response.json()
-
-if response_data.get("ok"):
-    print("Message posted to Telegram successfully!")
-else:
-    print("Failed to send message:", response_data)
+    if response_data.get("ok"):
+        print("")
+    else:
+        print("Failed to send message:", response_data)

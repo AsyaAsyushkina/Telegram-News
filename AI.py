@@ -1,14 +1,15 @@
 from google import genai
-import json
+from google.genai import types
+from config import API, USER_PROMPT, SYS_PROMPT
 
-with open("config.json", "r") as f:
-    config = json.load(f)
+client = genai.Client(api_key=API)
 
-client = genai.Client(api_key=config["api"])
-
-
-response = client.models.generate_content(
-    model="gemini-3.5-flash-lite",
-    contents="Hello world!"
-)
-print(response.text)
+def ai_reprocessing(mail_info):
+    response = client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        contents=[USER_PROMPT, mail_info],
+        config=types.GenerateContentConfig(
+            system_instruction=SYS_PROMPT
+        )
+    )
+    return response.text

@@ -1,32 +1,44 @@
-from xml.etree.ElementTree import tostring
-
-# import feedparser
-# rss_url = "https://kill-the-newsletter.com/feeds/tv52d3mc8fcm1af5z864.xml"
-
 import imaplib
-import json
 import email
 from email import policy
 
-with open("config.json", "r") as f:
-    config = json.load(f)
+from config import EMAIL, PASSWORD, SENDERS
 
 connection_to_server = imaplib.IMAP4_SSL("imap.gmail.com")
-connection_to_server.login(config["email"], config[ "password"])
+connection_to_server.login(EMAIL, PASSWORD)
 connection_to_server.select("inbox")
+id_mails = []
 
-status, data = connection_to_server.search(None, 'UNSEEN', 'FROM "thebatch@deeplearning.ai"')
-id_mails = data[0].split()
-print(status, " ", id_mails)
+def build_sender_search(sender_list):
+    if not sender_list:
+        return 'ALL'
+    query = f'FROM "{sender_list[0]}"'
+    for sender in sender_list[1:]:
+        query = f'OR {query} FROM "{sender}"'
+    return f'({query})'
 
-# for id_mail in id_mails:
-#     status_i, data_i = connection_to_server.fetch(id_mail, "(RFC822)")
-#     mail_info = email.message_from_bytes(data_i[0][1], policy=policy.default)
-#     body = mail_info.get_body(preferencelist=('plain', 'html'))
-#     print(body.get_content())
+def get_id_mails():
+    status, data = connection_to_server.search(None, 'UNSEEN', build_sender_search(SENDERS))
+    new_id_mails = data[0].split()
+    id_mails.extend(new_id_mails)
 
-def get_sender(id_mail):
-    status_i, data_i = connection_to_server.fetch(id_mail, "(RFC822)")
+def get_first_mail_id():
+    get_id_mails()
+    first_mail = None
+    if len(id_mails) != 0:
+        first_mail = id_mails[0]
+        id_mails.remove(first_mail)
+    return first_mail
+
+def get_first_mail_info():
+    mail_i = get_first_mail_id()
+    if mail_i is None:
+        return None
+    status_i, data_i = connection_to_server.fetch(mail_i, "(RFC822)")
     mail_info = email.message_from_bytes(data_i[0][1], policy=policy.default)
     body = mail_info.get_body(preferencelist=('plain', 'html'))
-    return body["sender"]
+    sender = mail_info["From"]
+    subject = mail_info["Subject"]
+    date = mail_info["Date"]
+    mail_to_text = "Sender: " + sender + "\nSubject: " + subject + "\nDate: " + date + "\nNews" + body.get_content()
+    return mail_to_text
