@@ -11,7 +11,12 @@ BOT_API = os.getenv("BOT_API")
 CHAT_ID = os.getenv("CHAT_ID")
 SYS_PROMPT = os.getenv("SYS_PROMPT")
 USER_PROMPT = os.getenv("USER_PROMPT")
-SENDERS = os.getenv("SENDERS")
+SENDERS = ""
+senders_env = os.getenv("SENDERS", "")
+try:
+    SENDERS = json.loads(senders_env)
+except (json.JSONDecodeError, TypeError):
+    SENDERS = [s.strip() for s in senders_env.split(",") if s.strip()]
 
 # EMAIL = config["email"]
 # PASSWORD = config["password"]
