@@ -2,9 +2,7 @@ name: Hourly News Bot
 
 on:
   schedule:
-    # Triggers at minute 0 of every hour
     - cron: '0 * * * *'
-  # Allows triggering manually from the GitHub Actions UI for testing
   workflow_dispatch:
 
 jobs:
