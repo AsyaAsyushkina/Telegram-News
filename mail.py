@@ -15,6 +15,7 @@ id_mails = []
 def build_sender_search(sender_list):
     if not sender_list:
         return 'ALL'
+
     query = f'FROM "{sender_list[0]}"'
     for sender in sender_list[1:]:
         query = f'OR {query} FROM "{sender}"'

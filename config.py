@@ -12,6 +12,13 @@ if os.getenv("GEMINI_API_KEY"):
 
     senders_env = os.getenv("SENDERS", "[]")
     SENDERS = json.loads(senders_env)
+    if isinstance(SENDERS, str):
+        try:
+            SENDERS = json.loads(senders_env)
+        except (json.JSONDecodeError, TypeError):
+            SENDERS = [
+                s.strip() for s in SENDERS.split(',') if s.strip()
+            ]
 
 elif os.path.exists("config.json"):
     with open("config.json", "r", encoding="utf-8") as f:
