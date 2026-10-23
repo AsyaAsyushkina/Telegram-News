@@ -22,7 +22,11 @@ def build_sender_search(sender_list):
     return f'({query})'
 
 def get_id_mails():
-    print("senders: ", SENDERS)
+    print("=" * 40)
+    print(f"DEBUG SENDERS LIST: {SENDERS}")
+    print(f"DEBUG SENDERS TYPE: {type(SENDERS)}")
+    print(f"DEBUG GENERATED SEARCH QUERY: {repr(search_query)}")
+    print("=" * 40)
     status, data = connection_to_server.search(None, 'UNSEEN', build_sender_search(SENDERS))
     new_id_mails = data[0].split()
     id_mails.extend(new_id_mails)
