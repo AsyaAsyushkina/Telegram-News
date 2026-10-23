@@ -22,12 +22,6 @@ def build_sender_search(sender_list):
     return f'({query})'
 
 def get_id_mails():
-    print("=" * 40)
-    print(f"DEBUG SENDERS LIST: {SENDERS}")
-    print(f"DEBUG SENDERS TYPE: {type(SENDERS)}")
-    print("=" * 40)
-    if True:
-        raise NameError(f"DEBUG SENDERS LIST: {SENDERS}")
     status, data = connection_to_server.search(None, 'UNSEEN', build_sender_search(SENDERS))
     new_id_mails = data[0].split()
     id_mails.extend(new_id_mails)
@@ -41,8 +35,6 @@ def get_first_mail_id():
     return first_mail
 
 def get_first_mail_info():
-    if True:
-        raise NameError(f"DEBUG SENDERS LIST: {SENDERS}")
     mail_i = get_first_mail_id()
     if mail_i is None:
         return None
