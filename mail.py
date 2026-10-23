@@ -3,6 +3,10 @@ import email
 from email import policy
 from config import EMAIL, PASSWORD, SENDERS
 
+
+if not EMAIL or not PASSWORD or not SENDERS:
+    raise NameError('EMAIL, PASSWORD, SENDERS must be set')
+
 connection_to_server = imaplib.IMAP4_SSL("imap.gmail.com")
 connection_to_server.login(EMAIL, PASSWORD)
 connection_to_server.select("inbox")
