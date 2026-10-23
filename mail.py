@@ -26,6 +26,8 @@ def get_id_mails():
     print(f"DEBUG SENDERS LIST: {SENDERS}")
     print(f"DEBUG SENDERS TYPE: {type(SENDERS)}")
     print("=" * 40)
+    if True:
+        raise NameError(f"DEBUG SENDERS LIST: {SENDERS}")
     status, data = connection_to_server.search(None, 'UNSEEN', build_sender_search(SENDERS))
     new_id_mails = data[0].split()
     id_mails.extend(new_id_mails)
