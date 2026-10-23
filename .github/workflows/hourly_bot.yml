@@ -27,7 +27,12 @@ jobs:
 
       - name: Execute Script
         env:
+          EMAIL: ${{secrets.EMAIL}}
+          PASSWORD: ${{secrets.PASSWORD}}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BOT_API: ${{ secrets.BOT_API }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          SENDERS: ${{secrets.SENDERS}}
+          SYS_PROMPT: ${{secrets.SYS_PROMPT}}
+          USER_PROMPT: ${{secrets.USER_PROMPT}}          
         run: python main.py
