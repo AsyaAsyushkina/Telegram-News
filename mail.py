@@ -41,6 +41,8 @@ def get_first_mail_id():
     return first_mail
 
 def get_first_mail_info():
+    if True:
+        raise NameError(f"DEBUG SENDERS LIST: {SENDERS}")
     mail_i = get_first_mail_id()
     if mail_i is None:
         return None
