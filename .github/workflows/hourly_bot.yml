@@ -1,0 +1,33 @@
+name: Hourly News Bot
+
+on:
+  schedule:
+    # Triggers at minute 0 of every hour
+    - cron: '0 * * * *'
+  # Allows triggering manually from the GitHub Actions UI for testing
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests google-genai
+
+      - name: Execute Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BOT_API: ${{ secrets.BOT_API }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python main.py
