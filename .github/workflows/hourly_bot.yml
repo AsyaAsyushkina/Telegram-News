@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: hourly-news-bot-group
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run-bot:
