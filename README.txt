@@ -7,3 +7,6 @@ Email: anastasya200608@gmail.com
 
 GIT
 git clone https://github.com/AsyaAsyushkina/Telegram-News.git
+
+TELEGRAM CHANNEL
+t.me/ActualAiNews
