@@ -2,7 +2,7 @@ name: Hourly News Bot
 
 on:
   schedule:
-    - cron: '55 * * * *'
+    - cron: '55 */4 * * *'
   workflow_dispatch:
 
 concurrency:
